@@ -1,12 +1,4 @@
-+++
-title = "Solutions"
-date = "2020-12-16"
-sidemenu = "true"
-description = "A vulnerable web application developed by Enciphers"
-+++
-
-
-In this section we will talk about the  solution to all the vulnerabilities present on the Threads application:
+In  this section we will talk about the  solution to all the vulnerabilities present on the Threads application:
 
 ## Low severity challenges
 
@@ -27,7 +19,7 @@ In this section we will talk about the  solution to all the vulnerabilities pres
 ### Hidden Directories
 
 1. We can use [Dirsearch tool](https://github.com/maurosoria/dirsearch)  to perform directory brute forcing on application to find the hidden end points of the application.
-![lol](/static/selfxss1.png)
+![lol](/images/d1.png)
 
 2. You can install this tool by clicking on the dirsearch tool on the above point which will redirect you to the github page of that tool. Then  use this  command in your terminal 
 ```
