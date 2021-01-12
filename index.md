@@ -21,6 +21,22 @@ In  this section we will talk about the  solution to all the vulnerabilities pre
 1. We can use [Dirsearch tool](https://github.com/maurosoria/dirsearch)  to perform directory brute forcing on application to find the hidden end points of the application.
 ![lol](/images/d1.png)
 
+1.1
+![lol](./images/d1.png)
+
+1.2
+![lol](/d1.png)
+
+1.3
+![lol](d1.png)
+
+1.4
+![lol](./d1.png)
+
+
+
+
+
 2. You can install this tool by clicking on the dirsearch tool on the above point which will redirect you to the github page of that tool. Then  use this  command in your terminal 
 ```
 python3 dirsearch.py -u <URL> -e <EXTENSIONS>
