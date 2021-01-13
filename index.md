@@ -1,6 +1,6 @@
-In  this section we will talk about the  solution to all the vulnerabilities present on the Threads application:
+In  this section we will talk about the  solution to all the vulnerabilities present on the Threads application. Threads web application consist of various vulnerabilities with different levels of severity like Low, Medium, High & critical. Vulnerabilities and their solution  are mentioned according to their category below :
 
-## Low severity challenges
+## Low 
 
 ### Self-XSS
 
@@ -96,7 +96,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 16. Keep in mind that the url provide in form action of the html document the UID present there is for my user so change it to the UID provided for your user to see changes.
 
 
-## Medium level Severity
+## Medium 
 
 ### MongoDB Injection
 
@@ -105,7 +105,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 2. When you write any username on the search bar and search for it then it passes the query searching for the user with the exact same name in its database. If there is the user present with the exact same name then it will show details about it on your screen. 
 ![mongo](/images/mongo.png)
 
-## High level Severity
+## High 
 
 ### IDOR
 
@@ -181,7 +181,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 4. As you can see the XSS has been executed when we visited from an unauthenticated state.
 ![Stored](/images/store3.png)
 
-## Critical level Severity
+## Critical 
 
 ### JWT Authentication
 
