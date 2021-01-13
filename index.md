@@ -79,27 +79,37 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 ### MongoDB Injection
 
 1. The mongoDB injection is present inside the **search bar** of the threads application.
-2. When you write any username on the search bar and search for it then it passes the query searching for the user with the exact same name in its database. If there is the user present with the exact same name then it will show details about it on your screen. 
 
+2. When you write any username on the search bar and search for it then it passes the query searching for the user with the exact same name in its database. If there is the user present with the exact same name then it will show details about it on your screen. 
+![mongo](/images/mongo.png)
 
 ## High level Severity
 
 ### IDOR
 
 1. The IDOR is present in the  deletion of a post or on the comment of that post.
+
 2. As you can see that there is a feature present in the Threads application where a user can delete only and only his post that he has created and also he can delete only his comment that he has made on a post. So a user cannot delete any other users post but as mentioned that there is an IDOR vulnerability in the application so it can be done using the BurpSuite.
+
 3. This IDOR vulnerability is present in the section of deletion of a post or comment which means we can delete any other users post or comment though it’s not possible with the feature  inside the application but we can do it with the help of BurpSuite.So open your BurpSuite and connect it with the  browser you are working on.
+
 4. To solve  this vulnerability  we need two accounts. So let’s login with our first account (let's say first account name is “User1”) and create a post with our first account.
 ![IDOR](/images/idor1.png)
+
 5. As you can see the post from user1 account has been created. So if you check the sitemap tab present inside the target tab in your BurpSuite will see that all the http requests have been captured. Go to http://localhost:3000 section you can see there that the post you created its UUID has been made which is inside the create option in the post folder and also an UUID is created to delete that post which you will find in the delete folder.
 ![IDOR](/images/idor2.png)
+
 6. Actually what BurpSuite does is it list all the folder and directories of that website which is being targetted inside the sitemap tab which is present inside the target tab.
+
 7. Now let’s login with another account(let's say  second account name is ‘User2’) and create a post.
 ![IDOR](/images/idor3.png)
+
 8. For the post created by user2 a  create and delete UUID has been created inside the sitemap tab present inside the target tab in the BurpSuite. So as you can see in the delete folder  there are two UUID. The first one is for the post created from user1 account and the second one is for the post created from user2 account.
 ![IDOR](/images/idor4.png)
+
 9. Now as you know that user2  can delete only his post which he created according to the feature of the application but as we know IDOR is present so we can delete other users post too. So click on the delete option for the post created by user2 and capture this delete request in your proxy tab.
 ![IDOR](/images/idor5.png)
+
 10. As you can see in the outgoing request the UUID of that post is present which we are going to delete and this UUID was created for the post which user2 created. So before forwarding the request change the UUID to some other  UUID which is given to the post created by some other user. So we will change user2 UUID with user1 UUID and then we will forward this request.  
 ![IDOR](/images/idor6.png)
 ![IDOR](/images/idor7.png)
@@ -112,12 +122,25 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 ### SSRF
 
 1. So there is a simple ssrf which is present in the profile section of this application under the url field which is used for uploading an image via url.
+![SSRF](/images/ssrf1.png)
+
 2. So the /etc/passwd file is leaking which we have to find out.The /etc/passwd file on Unix systems contains password information. An attacker who has accessed the etc/passwd file may attempt a brute force attack of all passwords on the system. An attacker may attempt to gain access to the etc/passwd file through HTTP, FTP, or SMB. Typically this is done through one of the CGI scripts installed on the server, so this event may be seen in conjunction with other events of that type.
+
 3. So go to your profile section the last field the URL on is used to upload an image via URL.
+![SSRF](/images/ssrf2.png)
+
 4. So now let’s use the file protocol on this field and try to get /etc/passwd file from the server. Use **file:///etc/passwd** on the url field to fetch the file from the server.
+![SSRF](/images/ssrf3.png)
+
 5. Update this and open your profile section again and you will see that  in the image section there is no image because obviously that was not an url for uploading an image.
+![SSRF](/images/ssrf4.png)
+
 6. Now save that image by doing right click on it and then clicking on view image button.
+![SSRF](/images/ssrf5.png)
+
 7. Open your terminal and go to where you have saved that image and open that image file using the nano command “nano [file name]”.
+![SSRF](/images/ssrf6.png)
+
 8. As you can see now you have access to the /etc/passwd file which you have accessed using file protocol.
 
 ### Stored-XSS
@@ -126,10 +149,15 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 ```
 ><script>alert(“Hacker”)</script>
 ```
-2. Update the profile and now copy the url for this page shown in your browser.
-3. After copying open a new private window and paste this url in your browser and enter.
-4. As you can see the XSS has been executed when we visited from an unauthenticated state.
+![Stored](/images/store1.png)
 
+2. Update the profile and now copy the url for this page shown in your browser.
+![Stored](/images/store2.png)
+
+3. After copying open a new private window and paste this url in your browser and enter.
+
+4. As you can see the XSS has been executed when we visited from an unauthenticated state.
+![Stored](/images/store3.png)
 
 ## Critical level Severity
 
