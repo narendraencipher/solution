@@ -90,13 +90,23 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 2. As you can see that there is a feature present in the Threads application where a user can delete only and only his post that he has created and also he can delete only his comment that he has made on a post. So a user cannot delete any other users post but as mentioned that there is an IDOR vulnerability in the application so it can be done using the BurpSuite.
 3. This IDOR vulnerability is present in the section of deletion of a post or comment which means we can delete any other users post or comment though it’s not possible with the feature  inside the application but we can do it with the help of BurpSuite.So open your BurpSuite and connect it with the  browser you are working on.
 4. To solve  this vulnerability  we need two accounts. So let’s login with our first account (let's say first account name is “User1”) and create a post with our first account.
+![IDOR](/images/idor1.png)
 5. As you can see the post from user1 account has been created. So if you check the sitemap tab present inside the target tab in your BurpSuite will see that all the http requests have been captured. Go to http://localhost:3000 section you can see there that the post you created its UUID has been made which is inside the create option in the post folder and also an UUID is created to delete that post which you will find in the delete folder.
+![IDOR](/images/idor2.png)
 6. Actually what BurpSuite does is it list all the folder and directories of that website which is being targetted inside the sitemap tab which is present inside the target tab.
 7. Now let’s login with another account(let's say  second account name is ‘User2’) and create a post.
+![IDOR](/images/idor3.png)
 8. For the post created by user2 a  create and delete UUID has been created inside the sitemap tab present inside the target tab in the BurpSuite. So as you can see in the delete folder  there are two UUID. The first one is for the post created from user1 account and the second one is for the post created from user2 account.
+![IDOR](/images/idor4.png)
 9. Now as you know that user2  can delete only his post which he created according to the feature of the application but as we know IDOR is present so we can delete other users post too. So click on the delete option for the post created by user2 and capture this delete request in your proxy tab.
+![IDOR](/images/idor5.png)
 10. As you can see in the outgoing request the UUID of that post is present which we are going to delete and this UUID was created for the post which user2 created. So before forwarding the request change the UUID to some other  UUID which is given to the post created by some other user. So we will change user2 UUID with user1 UUID and then we will forward this request.  
+![IDOR](/images/idor6.png)
+![IDOR](/images/idor7.png)
+
 11. After forwarding  this request  check that the post made by user1 is  successfully deleted while logging into user2 account.
+![IDOR](/images/idor8.png)
+
 12. So basically user2 made his deletion request as a bait so instead of his post UUID he can replace it with user1 UUID and send that deletion request to delete another user post from his account.
 
 ### SSRF
