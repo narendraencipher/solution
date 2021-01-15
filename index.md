@@ -1,9 +1,9 @@
 # Table of Content
 
-- [1. Low Severity Challenges](##Low)
+- [1. Low Severity Challenges](#Low)
   * [Self-XSS](#Self-XSS)
   * [Hidden Directories](#Hidden Directories)
-  * [Cross-Site Request Forgery](#Cross-site Request Forgery(CSRF))
+  * [Cross-Site Request Forgery](#CSRF)
 - [2. Medium Severity Challenges](#Medium)
   * [MongoDB Injection](#MongoDB Injection)
 - [3. High severity Challenges](## High)
@@ -16,9 +16,9 @@
 
 In  this section we will talk about the  solution to all the vulnerabilities present on the Threads application. Threads web application consist of various vulnerabilities with different levels of severity like Low, Medium, High & critical. Vulnerabilities and their solution  are mentioned according to their category below :
 
-## Low 
+## Low <a name="Low"></a>
 
-### Self-XSS
+### Self-XSS <a name="Self-XSS"></a>
 
 1. The self-xss is present in the name field of the profile section.So go to your profile first:
 
@@ -31,7 +31,7 @@ In  this section we will talk about the  solution to all the vulnerabilities pre
 3. Click on update to update new credentials. After this you will see that the entered XSS payload getting  executed on your browser and it will keep getting executed whenever you will visit you profile section through the icon given on home page.
 ![XSS](/images/self3.png)
 
-### Hidden Directories
+### Hidden Directories <a name="Hidden Directories"></a>
 
 1. We can use [Dirsearch tool](https://github.com/maurosoria/dirsearch)  to perform directory brute forcing on application to find the hidden end points of the application.
 
@@ -51,7 +51,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 5. In http://localhost:3000/management a  page opens up where an admin user can only login.The hard-coded mail for the admin account is **test@test.com**. You have to check whether an account with this mail to login as admin exist in the application or not.
 ![dir](/images/dir2.png)
 
-### Cross-site Request Forgery(CSRF)
+### CSRF <a name="CSRF"></a>
 
 1. So Threads application is CSRF vulnerable so we can change many things like password,name etc of a victim account just by sending him a malicious html file performing some actions  and if he opens it  then there will be changes in his account without him knowing about it.
 
