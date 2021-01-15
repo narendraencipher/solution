@@ -6,6 +6,13 @@
   * [Cross-Site Request Forgery](#Cross-site Request Forgery(CSRF))
 - [2. Medium Severity Challenges](#Medium)
   * [MongoDB Injection](#MongoDB Injection)
+- [3. High severity Challenges](## High)
+  * [Insecure Direct Object Reference](### IDOR)
+  * [Server-Side Request Forgery](### SSRF)
+  * [Stored-XSS](### Stored-XSS)
+- [4. Critical severity Challenges](## Critical)
+  * [JWT Authentication](###JWT)
+
 
 In  this section we will talk about the  solution to all the vulnerabilities present on the Threads application. Threads web application consist of various vulnerabilities with different levels of severity like Low, Medium, High & critical. Vulnerabilities and their solution  are mentioned according to their category below :
 
