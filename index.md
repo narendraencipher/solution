@@ -1,3 +1,11 @@
+# Table of Content
+
+- [1. Low Severity Challenge](##Low)
+  * [1.1 Self-XSS](###Self-XSS)
+  * [1.2 Hidden Directories](###Hidden Directories)
+  * [1.3 Cross-Site Request Forgery](###Cross-site Request Forgery(CSRF))
+
+
 In  this section we will talk about the  solution to all the vulnerabilities present on the Threads application. Threads web application consist of various vulnerabilities with different levels of severity like Low, Medium, High & critical. Vulnerabilities and their solution  are mentioned according to their category below :
 
 ## Low 
