@@ -6,12 +6,12 @@
   * [Cross-Site Request Forgery](#CSRF)
 - [2. Medium Severity Challenges](#Medium)
   * [MongoDB Injection](#MongoDB Injection)
-- [3. High severity Challenges](## High)
-  * [Insecure Direct Object Reference](### IDOR)
-  * [Server-Side Request Forgery](### SSRF)
-  * [Stored-XSS](### Stored-XSS)
-- [4. Critical severity Challenges](## Critical)
-  * [JWT Authentication](###JWT)
+- [3. High severity Challenges](#High)
+  * [Insecure Direct Object Reference](#IDOR)
+  * [Server-Side Request Forgery](#SSRF)
+  * [Stored-XSS](#Stored-XSS)
+- [4. Critical severity Challenges](#Critical)
+  * [JWT Authentication](#JWT)
 
 
 In  this section we will talk about the  solution to all the vulnerabilities present on the Threads application. Threads web application consist of various vulnerabilities with different levels of severity like Low, Medium, High & critical. Vulnerabilities and their solution  are mentioned according to their category below :
@@ -51,7 +51,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 5. In http://localhost:3000/management a  page opens up where an admin user can only login.The hard-coded mail for the admin account is **test@test.com**. You have to check whether an account with this mail to login as admin exist in the application or not.
 ![dir](/images/dir2.png)
 
-### CSRF <a name="CSRF"></a>
+### Cross-site Request Forgery <a name="CSRF"></a>
 
 1. So Threads application is CSRF vulnerable so we can change many things like password,name etc of a victim account just by sending him a malicious html file performing some actions  and if he opens it  then there will be changes in his account without him knowing about it.
 
@@ -112,18 +112,18 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 16. Keep in mind that the url provide in form action of the html document the UID present there is for my user so change it to the UID provided for your user to see changes.
 
 
-## Medium 
+## Medium <a name="Medium"></a>
 
-### MongoDB Injection
+### MongoDB Injection <a name="MongoDB Injection"></a>
 
 1. The mongoDB injection is present inside the **search bar** of the threads application.
 
 2. When you write any username on the search bar and search for it then it passes the query searching for the user with the exact same name in its database. If there is the user present with the exact same name then it will show details about it on your screen. 
 ![mongo](/images/mongo.png)
 
-## High 
+## High <a name="High"></a>
 
-### IDOR
+### Insecure Direct Object Reference <a name="IDOR"></a>
 
 1. The IDOR is present in the  deletion of a post or on the comment of that post.
 
@@ -157,7 +157,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 12. So basically user2 made his deletion request as a bait so instead of his post UUID he can replace it with user1 UUID and send that deletion request to delete another user post from his account.
 
-### SSRF
+### Server-Side Request Forgery <a name="SSRF"></a>
 
 1. So there is a simple ssrf which is present in the profile section of this application under the url field which is used for uploading an image via url.
 ![SSRF](/images/ssrf1.png)
@@ -181,7 +181,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 8. As you can see now you have access to the /etc/passwd file which you have accessed using file protocol.
 
-### Stored-XSS
+### Stored-XSS <a name="Stored-XSS"></a>
 
 1. This XSS is present inside the profile section inside the website field. It is a stored XSS which is only executable when seen in an unauthenticated state. So first let’s go to the  profile section and put a simple javascript XSS payload inside the website field. XSS payload= 
 ```
@@ -197,9 +197,9 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 4. As you can see the XSS has been executed when we visited from an unauthenticated state.
 ![Stored](/images/store3.png)
 
-## Critical 
+## Critical <a name="Critical"></a>
 
-### JWT Authentication
+### JWT Authentication <a name="JWT"></a>
 
 1. So basically first you have to check whether there is an  user account with email **test@test.com** with password **123** is present  because that is the hardcoded email.So first make sure that an account exists with the above email id and then try to forge the token.
 
