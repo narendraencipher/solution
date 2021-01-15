@@ -1,16 +1,16 @@
 # Table of Content
 
-- [1. Low Severity Challenges](#Low)
+- [1. Low Severity](#Low)
   * [Self-XSS](#Self-XSS)
   * [Hidden Directories](#Hidden Directories)
   * [Cross-Site Request Forgery](#CSRF)
-- [2. Medium Severity Challenges](#Medium)
+- [2. Medium Severity](#Medium)
   * [MongoDB Injection](#MongoDB Injection)
-- [3. High severity Challenges](#High)
+- [3. High Severity](#High)
   * [Insecure Direct Object Reference](#IDOR)
   * [Server-Side Request Forgery](#SSRF)
   * [Stored-XSS](#Stored-XSS)
-- [4. Critical severity Challenges](#Critical)
+- [4. Critical Severity](#Critical)
   * [JWT Authentication](#JWT)
 
 
