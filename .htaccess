@@ -1,4 +1,4 @@
 AuthType Basic
 AuthName "Password Protected Area"
-AuthUserFile /akarsh-enciphers/Solutions/blob/gh-pages/.htpasswd
+AuthUserFile /Solutions/blob/gh-pages/.htpasswd
 Require valid-user
