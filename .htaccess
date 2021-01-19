@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Password Protected Area"
+AuthUserFile https://github.com/akarsh-enciphers/Solutions/blob/gh-pages/.htpasswd
+Require valid-user
