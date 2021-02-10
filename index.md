@@ -1,7 +1,8 @@
 # Table of Content
 
 - [1. Low Severity](#Low)
-  * [Self-XSS](#Self-XSS)
+  * [Self-XSS (1st one)](#Self-XSS)
+  * [Self-XSS(2nd one)](#self2)
   * [Hidden Directories](#Hidden Directories)
   * [Cross-Site Request Forgery](#CSRF)
 - [2. Medium Severity](#Medium)
@@ -18,7 +19,7 @@ In  this section we will talk about the  solution to all the vulnerabilities pre
 
 ## Low <a name="Low"></a>
 
-### Self-XSS <a name="Self-XSS"></a>
+### Self-XSS (1st) <a name="Self-XSS"></a>
 
 1. The self-xss is present in the name field of the profile section.So go to your profile first:
 
@@ -30,6 +31,20 @@ In  this section we will talk about the  solution to all the vulnerabilities pre
 
 3. Click on update to update new credentials. After this you will see that the entered XSS payload getting  executed on your browser and it will keep getting executed whenever you will visit you profile section through the icon given on home page.
 ![XSS](/images/self3.png)
+
+### Self-XSS (2nd) <a name="self2"></a>
+
+1. This self-xss is present inside the chat box option given in the application.
+
+2. Though simple javascript payload containing script tag will not work. You have to use image tag in the payload. like:
+```
+<img src=1 href=1 onerror="javascript:alert(123)"></img>
+```
+or 
+```
+<svg onLoad svg onLoad="javascript:javascript:alert(1)"></svg onLoad>
+```
+3. Use these payload and you will see the self-xss present in the chat box.
 
 ### Hidden Directories <a name="Hidden Directories"></a>
 
