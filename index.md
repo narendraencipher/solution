@@ -215,12 +215,12 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 ### JWT Authentication <a name="JWT"></a>
 
-1. So basically first you have to check whether there is an  user account with email **test@test.com** with password **123** is present  because that is the hardcoded email.So first make sure that an account exists with the above email id and then try to forge the token.
+1. So basically first you have to create an account with the given email ID **admin@threadsapp.test**  because that is the hardcoded email.
 
 2. There is a /management page which has an authentication system which works via JWT API .
 ![JWT](/images/jwt1.png)
 
-3. Visit this management page in the application  and sign in as `test@test.com`. Capture this sign-in request  going out of your browser with the  BurpSuite proxy.
+3. Visit this management page in the application  and sign in with above email. Capture this sign-in request  going out of your browser with the  BurpSuite proxy.
 ![JWT](/images/jwt2.png)
 
 4. Open the proxy tab in your BurpSuite to check the outgoing request.Copy this request and send it to the repeater.
