@@ -44,10 +44,10 @@ or
 ```
 <svg onLoad svg onLoad="javascript:javascript:alert(1)"></svg onLoad>
 ```
-![XSS](/images/s2.png)
+![xss2](/images/s2.png)
 
 3. Use these payload and you will see the self-xss present in the chat box.
-![XSS](/images/s3.png)
+![xss3](/images/s3.png)
 
 ### Hidden Directories <a name="Hidden Directories"></a>
 
