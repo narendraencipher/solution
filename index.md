@@ -40,10 +40,6 @@ In  this section we will talk about the  solution to all the vulnerabilities pre
 ```
 <img src=1 href=1 onerror="javascript:alert(123)"></img>
 ```
-or 
-```
-<svg onLoad svg onLoad="javascript:javascript:alert(1)"></svg onLoad>
-```
 ![xss2](/images/s2.png)
 
 3. Use these payload and you will see the self-xss present in the chat box.
