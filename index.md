@@ -6,7 +6,7 @@
   * [Hidden Directories](#Hidden Directories)
   * [Cross-Site Request Forgery](#CSRF)
 - [2. Medium Severity](#Medium)
-  * [MongoDB Injection](#MongoDB Injection)
+  
 - [3. High Severity](#High)
   * [Insecure Direct Object Reference](#IDOR)
   * [Server-Side Request Forgery](#SSRF)
@@ -127,13 +127,6 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 
 ## Medium <a name="Medium"></a>
-
-### MongoDB Injection <a name="MongoDB Injection"></a>
-
-1. The mongoDB injection is present inside the **search bar** of the threads application.
-
-2. When you write any username on the search bar and search for it then it passes the query searching for the user with the exact same name in its database. If there is the user present with the exact same name then it will show details about it on your screen. 
-![mongo](/images/mongo.png)
 
 ## High <a name="High"></a>
 
