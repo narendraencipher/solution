@@ -6,7 +6,7 @@
   * [Hidden Directories](#Hidden Directories)
   * [Cross-Site Request Forgery](#CSRF)
 - [2. Medium Severity](#Medium)
-  * [MongoDB Injection](#MongoDB Injection)
+  
 - [3. High Severity](#High)
   * [Insecure Direct Object Reference](#IDOR)
   * [Server-Side Request Forgery](#SSRF)
@@ -15,41 +15,44 @@
   * [JWT Authentication](#JWT)
 
 
-In  this section we will talk about the  solution to all the vulnerabilities present on the Threads application. Threads web application consist of various vulnerabilities with different levels of severity like Low, Medium, High & critical. Vulnerabilities and their solution  are mentioned according to their category below :
+In  this section we will talk about the solution to all the vulnerabilities present on the Threads application. Threads web application consist of various vulnerabilities with different levels of severity like Low, Medium, High & critical. Vulnerabilities and their solution  are mentioned according to their category below :
 
 ## Low <a name="Low"></a>
 
 ### Self-XSS (1st) <a name="Self-XSS"></a>
 
-1. The self-xss is present in the name field of the profile section.So go to your profile first:
+1. The self-xss is present in the name field of the profile section.So goto your profile by cliclking on Account button:
 
-2. In the name field  enter a XSS payload .Like: 
+2. In name field enter a script as input: 
 ```
 ><script>alert(1)</script>
 ```
 ![XSS](/images/self2.png)
 
-3. Click on update to update new credentials. After this you will see that the entered XSS payload getting  executed on your browser and it will keep getting executed whenever you will visit you profile section through the icon given on home page.
+3. Click on update. After this you will see that the entered XSS payload getting  executed on your browser and it will keep getting executed whenever you will try to access your profile section through the icon given on home page or profile name.
 ![XSS](/images/self3.png)
+4. Another execution end point : When you visit the same user profile from another user given script executes
+![XSS](/images/self4.png)
 
 ### Self-XSS (2nd) <a name="self2"></a>
+
 
 1. This self-xss is present inside the chat box option given in the application.
 
 2. Though simple javascript payload containing script tag will not work. You have to use image tag in the payload. like:
 ```
-<img src=1 href=1 onerror="javascript:alert(123)"></img>
+<script>alert(0)</script>
 ```
 ![xss2](/images/s2.png)
 
-3. Use these payload and you will see the self-xss present in the chat box.
+3. Use the above script and you will see the pop up from the chat box.
 ![xss3](/images/s3.png)
 
 ### Hidden Directories <a name="Hidden Directories"></a>
 
-1. We can use [Dirsearch tool](https://github.com/maurosoria/dirsearch)  to perform directory brute forcing on application to find the hidden end points of the application.
+1. We can use [Dirsearch tool](https://github.com/maurosoria/dirsearch)to enumerate the hidden directories from the application with and without login. perform directory brute forcing on application to find the hidden end points of the application.
 
-2. You can install this tool by clicking on the dirsearch tool on the above point which will redirect you to the github page of that tool. Then  use this  command in your terminal 
+2. You can get [Dirsearch tool from here](https://github.com/maurosoria/dirsearch) and after the installation use this command in your terminal. 
 ```
 python3 dirsearch.py -u <URL> -e <EXTENSIONS>
 ```
@@ -57,33 +60,35 @@ python3 dirsearch.py -u <URL> -e <EXTENSIONS>
 ```
 python3 dirsearch.py -u http://localhost:3000 -e html,php
 ```
-3. The http status code 200  is shown  on the directories like  */home , /management , /users/login*.
-![dir](/images/dir1.png)
+3. The http status code 500  is shown  on the directory  ** /management ** when enumration is done after login. Which looks intresting 
 
-4. These can be accessed by using the endpoint after the domain name in the URL in your browser.Like **http://localhost:3000/management**.
+![dir](/images/dirsearch.png)
 
-5. In http://localhost:3000/management a  page opens up where an admin user can only login.The hard-coded mail for the admin account is **test@test.com**. You have to check whether an account with this mail to login as admin exist in the application or not.
-![dir](/images/dir2.png)
+4. These can be accessed by using the endpoint after login with the domain name in the URL in your browser.Like **http://localhost:3000/management**.It shows a message Not Authorized after visiting http://localhost:3000/management.
+![dir](/images/dirsearch2.png)
+
+5. There is a  email for the admin account is **admin@threadsapp.co.in**. You can use this email to register again as a admin from registration and see does it allow it or not.
+![dir](/images/dirsearch3.png)
+
+6.Here it allows you to login as admin after registration
+![dir](/images/dirsearch4.png)
 
 ### Cross-site Request Forgery <a name="CSRF"></a>
 
-1. So Threads application is CSRF vulnerable so we can change many things like password,name etc of a victim account just by sending him a malicious html file performing some actions  and if he opens it  then there will be changes in his account without him knowing about it.
+1. So Threads application is CSRF vulnerable so we can change many things like password,name etc of a victim account just by sending him a malicious html file performing some actions  and if he opens it  then there will be changes in his account without notifying about it.
 
-2. Like here we can take an example of changing a user's password. So what we will be going to do as an attacker is to  create a html file which will have an action for changing password for that user. So when the victim will open up that html file his password will get changed.
+2. Like here we can take an example of changing a user's password. So we will create a html file which will have an action for changing password for the victim user. So when the victim will open or visit that malicius html file in his browser where he is login in the application,his password will get changed automatically with any notification.
 
-3. First just log in as a user. I have logged in as user3 whose password is currently “user”.
-![csrf](/images/csrf1.png)
+3. First just log in as a user. I have logged in as pentester whose password is currently “12345678”.
+![csrf](/images/csrfo.png)
+
+
+4. Now as we have logged in as this user(Pentester) let’s try  changing the password through user account only on threads app. So basically like I am Penteser user right now and I want to change my password to “12345”. So I will just update it in my profile section. If I check this request going out of my browser for changing password I get to know that for updating the password the application is using the  **POST** request.
 ![csrf](/images/csrf2.png)
 
-
-4. Now as we have logged in as this user(user3) let’s try  changing the password through user account only on threads app. So basically like I am user3 right now and I want to change my password to “user@123”. So I will just update it in my profile section. If I check this request going out of my browser for changing password I get to know that for updating the password the application is using the  **POST** request.
-![csrf](/images/csrf3.png)
-
-5. So currently my user3 has the password ‘user@123’.
+5. So currently my Pentester has the password ‘12345’.
 
 6. As you can see in your outgoing request  for  changing the password the request going out is the  ‘POST’ request. Also it was using **password** and **confirm_password** as the hidden  parameters which we knew  while updating the password from the  request going out of our browser. 
-![csrf](/images/csrf4.png)
-![csrf](/images/csrf5.png)
 
 7. So as an attacker we know that the http request which will be sent through the browser is a ‘POST’  request to make changes in  the profile section. So now what we will be going to do is make an html document which will perform the action of changing the password when it will be executed. 
 
@@ -109,17 +114,38 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 9. Here in this html document the body tag will load and submit this document, the form tag is performing the action on the profile of the user whose UID is mentioned and the action which which is to be performed is of changing the password value mentioned in the hidden parameters(password,confirm_password).
 
-10. So as you can see in this html document we have used the form tag which will be  performing the action on ‘user3’ profile and the action which it will be performing is of changing the password of ‘user3’ to ‘1’.  Save the html document with .html extension.
+10. So as you can see in this html document we have used the form tag which will be  performing the action on ‘Pentester’ profile and the action which it will be performing is of changing the password of ‘Pentester2’ to ‘1’.  Save the html document with .html extension.
 
-11. So what an attacker need to do  is that he has to send this html document via link or some way to the victims browser and as soon as the victims click on it this html document will get executed by changing the password of the victims account.
-![csrf](/images/csrf7.png)
+11. So what an attacker need to do  is that he has to send this html document via link or some way to the victims (Pentester2)browser and as soon as the victims click on it this html document will get executed by changing the password of the victim account.
 
-12. So when he will open this file you will see the message of the account updated.
-![csrf](/images/csrf8.png)
 
-13. So now the new password for user3 is ‘1’ and the user3 does not even know about this, all he did was that he opened that file which can be sent via link or any other way to the victims system.
+12. So when he will open this file,password will be updated
+
+
+13. So now the new password for Pentester2 is ‘1’ and the Pentester does not even know about this, all he did was that he opened that file which can be sent via link or any other way to the victims system.
 
 14. Keep in mind that in the real world application you have to know hidden parameters which are getting used for changing the password and also the url or endpoint of the user account or the UID given to the user.
+
+Note: CSRF poc can be generated from burppro as well
+```
+<html>
+  <!-- CSRF PoC - generated by Burp Suite Professional -->
+  <body>
+  <script>history.pushState('', '', '/')</script>
+    <form action="http://localhost:4000/users/update/add_UI_of_victim" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="name" value="add_User_name" />
+      <input type="hidden" name="email" value="add_User_email" />
+      <input type="hidden" name="password" value="test" />
+      <input type="hidden" name="confirm&#95;password" value="test" />
+      <input type="hidden" name="profileImage" value="" />
+      <input type="hidden" name="websiteLink" value="" />
+      <input type="hidden" name="imageURL" value="" />
+      <input type="hidden" name="bio" value="" />
+      <input type="submit" value="Submit request" />
+    </form>
+  </body>
+</html>
+```
 
 15. Here the html document you created is in your localhost so just open that document via any browser you wer workink on and you will see the notification of account getting updated and the password for your user will be changed.
 
@@ -128,12 +154,8 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 ## Medium <a name="Medium"></a>
 
-### MongoDB Injection <a name="MongoDB Injection"></a>
 
-1. The mongoDB injection is present inside the **search bar** of the threads application.
 
-2. When you write any username on the search bar and search for it then it passes the query searching for the user with the exact same name in its database. If there is the user present with the exact same name then it will show details about it on your screen. 
-![mongo](/images/mongo.png)
 
 ## High <a name="High"></a>
 
@@ -145,31 +167,26 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 3. This IDOR vulnerability is present in the section of deletion of a post or comment which means we can delete any other users post or comment though it’s not possible with the feature  inside the application but we can do it with the help of BurpSuite.So open your BurpSuite and connect it with the  browser you are working on.
 
-4. To solve  this vulnerability  we need two accounts. So let’s login with our first account (let's say first account name is “User1”) and create a post with our first account.
+4. To solve  this vulnerability  we need two accounts. So let’s login with our first account (let's say first account name is “Pentester”) and create a post with our first account.
 ![IDOR](/images/idor1.png)
 
-5. As you can see the post from user1 account has been created. So if you check the sitemap tab present inside the target tab in your BurpSuite will see that all the http requests have been captured. Go to http://localhost:3000 section you can see there that the post you created its UUID has been made which is inside the create option in the post folder and also an UUID is created to delete that post which you will find in the delete folder.
+5. As you can see the post from Pentester account has been created.
 ![IDOR](/images/idor2.png)
 
-6. Actually what BurpSuite does is it list all the folder and directories of that website which is being targetted inside the sitemap tab which is present inside the target tab.
-
-7. Now let’s login with another account(let's say  second account name is ‘User2’) and create a post.
+6. Similar way create a post from another account "Pentester2" account.
 ![IDOR](/images/idor3.png)
 
-8. For the post created by user2 a  create and delete UUID has been created inside the sitemap tab present inside the target tab in the BurpSuite. So as you can see in the delete folder  there are two UUID. The first one is for the post created from user1 account and the second one is for the post created from user2 account.
+7. For the post created by Pentester2,  create a delete request and capture it in burp. Captured request send it to repeater tab.
 ![IDOR](/images/idor4.png)
 
-9. Now as you know that user2  can delete only his post which he created according to the feature of the application but as we know IDOR is present so we can delete other users post too. So click on the delete option for the post created by user2 and capture this delete request in your proxy tab.
+8. Now as you know that Pentester2  can delete only his post which he created according to the feature of the application but as we see application is deleting post by UUID of post so we can try to delete other users post too by replacing it with post of pentester ID's.
 ![IDOR](/images/idor5.png)
 
-10. As you can see in the outgoing request the UUID of that post is present which we are going to delete and this UUID was created for the post which user2 created. So before forwarding the request change the UUID to some other  UUID which is given to the post created by some other user. So we will change user2 UUID with user1 UUID and then we will forward this request.  
+9. Get the UUID of the pentester post and replce it with pentester2 UUID.Once that is done.Right click and show response in Browser, it will delete the post of the user Pentester you can check it by refershing the page. 
 ![IDOR](/images/idor6.png)
-![IDOR](/images/idor7.png)
 
-11. After forwarding  this request  check that the post made by user1 is  successfully deleted while logging into user2 account.
-![IDOR](/images/idor8.png)
 
-12. So basically user2 made his deletion request as a bait so instead of his post UUID he can replace it with user1 UUID and send that deletion request to delete another user post from his account.
+11. So basically Pentester2 made his deletion request as a bait so instead of his post UUID he can replace it with Pentester UUID and send that deletion request to delete another user post from his account.
 
 ### Server-Side Request Forgery <a name="SSRF"></a>
 
@@ -179,57 +196,52 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 2. So the /etc/passwd file is leaking which we have to find out.The /etc/passwd file on Unix systems contains password information. An attacker who has accessed the etc/passwd file may attempt a brute force attack of all passwords on the system. An attacker may attempt to gain access to the etc/passwd file through HTTP, FTP, or SMB. Typically this is done through one of the CGI scripts installed on the server, so this event may be seen in conjunction with other events of that type.
 
 3. So go to your profile section the last field the URL on is used to upload an image via URL.
-![SSRF](/images/ssrf2.png)
 
 4. So now let’s use the file protocol on this field and try to get /etc/passwd file from the server. Use **file:///etc/passwd** on the url field to fetch the file from the server.
-![SSRF](/images/ssrf3.png)
+![SSRF](/images/ssrf2.png)
 
 5. Update this and open your profile section again and you will see that  in the image section there is no image because obviously that was not an url for uploading an image.
+![SSRF](/images/ssrf3.png)
+
+6. Now goto the profile image section on left side and right to copy the image location.open a new tab and paste the image location and it will ask you to save the image as shown in below image
 ![SSRF](/images/ssrf4.png)
 
-6. Now save that image by doing right click on it and then clicking on view image button.
-![SSRF](/images/ssrf5.png)
-
 7. Open your terminal and go to where you have saved that image and open that image file using the nano command “nano [file name]”.
-![SSRF](/images/ssrf6.png)
+![SSRF](/images/ssrf5.png)
 
 8. As you can see now you have access to the /etc/passwd file which you have accessed using file protocol.
 
 ### Stored-XSS <a name="Stored-XSS"></a>
 
-1. This XSS is present inside the profile section inside the website field. It is a stored XSS which is only executable when seen in an unauthenticated state. So first let’s go to the  profile section and put a simple javascript XSS payload inside the website field. XSS payload= 
+1. This XSS is present inside the profile section inside the website input field. It is a stored XSS which executes only when other users visit the profile of user whose website field is updated with malicius script. So first let’s go to the  profile section and put a simple javascript  inside the website field. 
 ```
-><script>alert(“Hacker”)</script>
+<script>alert(“Hacker”)</script>
 ```
-![Stored](/images/store1.png)
+![Stored](/images/stored1.png)
 
-2. Update the profile and now copy the url for this page shown in your browser.
-![Stored](/images/store2.png)
+2. now login to other user account and visit the website updated user prfile.
+![Stored](/images/stored2.png)
 
-3. After copying open a new private window and paste this url in your browser and enter.
-
-4. As you can see the XSS has been executed when we visited from an unauthenticated state.
-![Stored](/images/store3.png)
+3. once you click on view the xss will execute
+![Stored](/images/stored3.png)
 
 ## Critical <a name="Critical"></a>
 
 ### JWT Authentication <a name="JWT"></a>
 
-1. So basically first you have to create an account with the given email ID **admin@threadsapp.test**  because that is the hardcoded email.
+1. So basically first you have to create an account with the given email ID **admin@threadsapp.co.in**  because that is the hardcoded email.
 
 2. There is a /management page which has an authentication system which works via JWT API .
-![JWT](/images/jwt1.png)
 
-3. Visit this management page in the application  and sign in with above email. Capture this sign-in request  going out of your browser with the  BurpSuite proxy.
-![JWT](/images/jwt2.png)
+3. Visit this registration page in the application  and register in with above email admin@threadsapp.co.in. Capture this sign-in request  going out of your browser with the  BurpSuite proxy.
 
 4. Open the proxy tab in your BurpSuite to check the outgoing request.Copy this request and send it to the repeater.
-![JWT](/images/jwt3.png)
 
 5. In the repeater tab send that request to check out the response for that request. As you can see in the response section you have got the token written with green ink. Now copy that token and send it to [jwt.io](https://jwt.io/ ). 
-![JWT](/images/jwt4.png)
+![JWT](/images/jwt1.png)
 
 6. The JWT token is divided in three parts: algo,payload,signature.
+![JWT](/images/jwt2.png)
 
 7. So basically we have to find out the secret key used in this token in the signature section because the new token which we will make it for the unauthorized user to access the admin section should  have the same signature .
 
@@ -238,22 +250,20 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 9. To crack the secret key inside this token you can use this tool [JWT secret key cracking tool](https://github.com/ticarpi/jwt_tool/blob/master/jwt_tool.py) . Click on the link provided and install the tool  in your system.
 
 10. To do brute forcing we need a wordlist file (where many passwords are given) which we can use for getting the secret key. So for this application the wordlist file is given on Enciphers github visit this link provided  and save this file[Password file](https://github.com/enciphers/WebHacking-Training-Resources/blob/master/jwt-wordlist). Save this file with any  name in your system  like `passwd.txt`.
-![jwt](/images/jwt5.png)
 
 11. Now   use this tool to find the secret key. Go to your terminal and open wherever you installed that tool. Syntax of the  command is:
+
 ```
 python3 jwt_tool.py  [jwt token you got on your BurpSuite] -C -d  [the wordlist file you saved]
 ```
-12. The command is  example(according to the jwt token I got and the wordlist file I saved with the name of passwd.txt ):
+12. The command is  example(according to the jwt token I got and the wordlist file I saved with the name of jwt-wordlist.txt ):
 ```
-python3 jwt_tool.py eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiaGluYXZAZW5jaXBoZXJzLmNvbSIsImlhdCI6MTYwNDY1OTIwNiwiZXhwIjoxNjA0NjY5MjA2fQ.2CrCcllttd02ktDrnUlUFiWj-oHxd4HXvf20yiYAo1M -C -d passwd.txt
+python3 jwt_tool.py eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiaGluYXZAZW5jaXBoZXJzLmNvbSIsImlhdCI6MTYwNDY1OTIwNiwiZXhwIjoxNjA0NjY5MjA2fQ.2CrCcllttd02ktDrnUlUFiWj-oHxd4HXvf20yiYAo1M -C -d jwt-wordlist.txt
 ```
-![jwt](/images/jwt6.png)
+![jwt](/images/jwt3.png)
 
 13. As you can see the secret key for the token is **thr3@ds@000**. Use this key in this website [JWT.io](https://jwt.io/)  to encode a new token for your account(unauthorized user). Then use that token while logging in on the management page with your account. You will get the access with your account in the management section.
-![jwt](/images/jwt7.png)
 
 
 Happy learning,Happy hacking!
-
 
