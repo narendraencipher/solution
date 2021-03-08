@@ -80,7 +80,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 2. Like here we can take an example of changing a user's password. So we will create a html file which will have an action for changing password for the victim user. So when the victim will open or visit that malicius html file in his browser where he is login in the application,his password will get changed automatically with any notification.
 
 3. First just log in as a user. I have logged in as pentester whose password is currently “12345678”.
-![csrf](/images/csrfo.png)
+![csrf](/images/csrf0.png)
 
 
 4. Now as we have logged in as this user(Pentester) let’s try  changing the password through user account only on threads app. So basically like I am Penteser user right now and I want to change my password to “12345”. So I will just update it in my profile section. If I check this request going out of my browser for changing password I get to know that for updating the password the application is using the  **POST** request.
