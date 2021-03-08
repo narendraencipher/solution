@@ -1,8 +1,7 @@
 # Table of Content
 
 - [1. Low Severity](#Low)
-  * [Self-XSS (1st one)](#Self-XSS)
-  * [Self-XSS(2nd one)](#self2)
+  * [Self-XSS](#self2)
   * [Hidden Directories](#Hidden Directories)
   * [Cross-Site Request Forgery](#CSRF)
 - [2. Medium Severity](#Medium)
@@ -11,6 +10,7 @@
   * [Insecure Direct Object Reference](#IDOR)
   * [Server-Side Request Forgery](#SSRF)
   * [Stored-XSS](#Stored-XSS)
+  * [Stored-XSS](#Stored-XSSS)
 - [4. Critical Severity](#Critical)
   * [JWT Authentication](#JWT)
 
@@ -19,22 +19,7 @@ In  this section we will talk about the solution to all the vulnerabilities pres
 
 ## Low <a name="Low"></a>
 
-### Self-XSS (1st) <a name="Self-XSS"></a>
-
-1. The self-xss is present in the name field of the profile section. So go to your profile by clicking on Account button:
-
-2. In name field enter a script as input: 
-```
-><script>alert(1)</script>
-```
-![XSS](/images/self2.png)
-
-3. Click on update. After this you will see that the entered XSS payload getting  executed on your browser and it will keep getting executed whenever you will try to access your profile section through the icon given on home page or profile name.
-![XSS](/images/self3.png)
-4. Another execution end point : When you visit the same user profile from another user given script executes
-![XSS](/images/self4.png)
-
-### Self-XSS (2nd) <a name="self2"></a>
+### Self-XSS <a name="self2"></a>
 
 
 1. This self-xss is present inside the chat box option given in the application.
@@ -223,7 +208,22 @@ Note: CSRF poc can be generated from burppro as well
 ![Stored](/images/stored2.png)
 
 3. once you click on view the xss will execute
-![Stored](/images/stored3.png)
+![Stored](/images/stored3.png) 
+
+### Stored-XSS <a name="Self-XSSS"></a>
+
+1. The self-xss is present in the name field of the profile section. So go to your profile by clicking on Account button:
+
+2. In name field enter a script as input: 
+```
+><script>alert(1)</script>
+```
+![XSS](/images/self2.png)
+
+3. Click on update. After this you will see that the entered XSS payload getting  executed on your browser and it will keep getting executed whenever you will try to access your profile section through the icon given on home page or profile name.
+![XSS](/images/self3.png)
+4. Another execution end point : When you visit the same user profile from another user given script executes
+![XSS](/images/self4.png)
 
 ## Critical <a name="Critical"></a>
 
