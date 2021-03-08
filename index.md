@@ -11,6 +11,7 @@
   * [Server-Side Request Forgery](#SSRF)
   * [Stored-XSS](#Stored-XSS)
   * [Stored-XSS](#Self-XSS)
+  * [Acoount takeover via IDOR](#IDORt)
 - [4. Critical Severity](#Critical)
   * [JWT Authentication](#JWT)
 
@@ -226,6 +227,28 @@ Note: CSRF poc can be generated from burp pro as well
 4. Another execution end point : When you visit the same user profile from another user given script executes
 ![XSS](/images/self4.png)
 
+### Account Takeover via IDOR <a name="IDORt"></a>
+
+1. Create two Accounts for eg. nodie and nodiea
+![IDOR](/images/idort1.png)
+![IDOR](/images/idort2.png)
+
+2. Now login and capture the account update request of both the accounts and send them to the
+repeater. as you can see each user is having a unique UserId
+![IDOR](/images/idort3.png)
+![IDOR](/images/idort4.png)
+
+3. So you can change the UserId(6045dca4ac25b3049e46a6c6) of one user(nodie) with
+another(nodiea) UserId(6045ef9cac25b3049e46a6c7) and update the data in input field which
+you want to change for another user(nodiea)for eg. Changing the name of user nodiea to
+something else shown in screenshot.
+![IDOR](/images/idort5.png)
+
+4. As in the above screenshot it responded with 200 ok and that means our request worked
+completely ,let's cross check it by login to another user account.
+
+5. Similar ways other actions can be done by changing the UserId like: changing the
+password,Bio,Website,User Name etc.
 
 ## Critical <a name="Critical"></a>
 
