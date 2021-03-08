@@ -5,12 +5,12 @@
   * [Hidden Directories](#Hidden Directories)
   * [Cross-Site Request Forgery](#CSRF)
 - [2. Medium Severity](#Medium)
-  
+  * []
 - [3. High Severity](#High)
   * [Insecure Direct Object Reference](#IDOR)
   * [Server-Side Request Forgery](#SSRF)
   * [Stored-XSS](#Stored-XSS)
-  * [Stored-XSS](#Self-XSS)
+  * [Stored-XSS](#Stored-XSSS)
 - [4. Critical Severity](#Critical)
   * [JWT Authentication](#JWT)
 
@@ -18,7 +18,6 @@
 In  this section we will talk about the solution to all the vulnerabilities present on the Threads application. Threads web application consist of various vulnerabilities with different levels of severity like Low, Medium, High & critical. Vulnerabilities and their solution  are mentioned according to their category below :
 
 ## Low <a name="Low"></a>
-
 
 ### Self-XSS <a name="self2"></a>
 
@@ -46,14 +45,14 @@ python3 dirsearch.py -u <URL> -e <EXTENSIONS>
 ```
 python3 dirsearch.py -u http://localhost:3000 -e html,php
 ```
-3. The http status code 500  is shown  on the directory  ** /management ** when enumeration is done after login. Which looks interesting 
+3. The http status code 500  is shown  on the directory  ** /management ** when enumration is done after login. Which looks intresting 
 
 ![dir](/images/dirsearch.png)
 
 4. These can be accessed by using the endpoint after login with the domain name in the URL in your browser.Like **http://localhost:3000/management**.It shows a message Not Authorized after visiting http://localhost:3000/management.
 ![dir](/images/dirsearch2.png)
 
-5. There is a  email for the admin account is **admin@threadsapp.co.in**. You can use this email to register again as an admin from registration and see if it allows it or not.
+5. There is a  email for the admin account is **admin@threadsapp.co.in**. You can use this email to register again as a admin from registration and see does it allow it or not.
 ![dir](/images/dirsearch3.png)
 
 6.Here it allows you to login as admin after registration
@@ -63,13 +62,13 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 1. So Threads application is CSRF vulnerable so we can change many things like password,name etc of a victim account just by sending him a malicious html file performing some actions  and if he opens it  then there will be changes in his account without notifying about it.
 
-2. Like here we can take an example of changing a user's password. So we will create a html file which will have an action for changing password for the victim user. So when the victim will open or visit that malicious html file in his browser where he is login in the application,his password will get changed automatically with any notification.
+2. Like here we can take an example of changing a user's password. So we will create a html file which will have an action for changing password for the victim user. So when the victim will open or visit that malicius html file in his browser where he is login in the application,his password will get changed automatically with any notification.
 
-3. First just log in as a user. I have logged in as a pentester whose password is currently “12345678”.
+3. First just log in as a user. I have logged in as pentester whose password is currently “12345678”.
 ![csrf](/images/csrf0.png)
 
 
-4. Now as we have logged in as this user(Pentester) let’s try  changing the password through the user account only on threads app. So basically like I am a Pentester user right now and I want to change my password to “12345”. So I will just update it in my profile section. If I check this request going out of my browser for changing password I get to know that for updating the password the application is using the  **POST** request.
+4. Now as we have logged in as this user(Pentester) let’s try  changing the password through user account only on threads app. So basically like I am Penteser user right now and I want to change my password to “12345”. So I will just update it in my profile section. If I check this request going out of my browser for changing password I get to know that for updating the password the application is using the  **POST** request.
 ![csrf](/images/csrf2.png)
 
 5. So currently my Pentester has the password ‘12345’.
@@ -100,7 +99,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 9. Here in this html document the body tag will load and submit this document, the form tag is performing the action on the profile of the user whose UID is mentioned and the action which which is to be performed is of changing the password value mentioned in the hidden parameters(password,confirm_password).
 
-10. So as you can see in this html document we have used the form tag which will be  performing the action on ‘Pentester’ profile and the action which it will be performing is changing the password of ‘Pentester2’ to ‘1’.  Save the html document with .html extension.
+10. So as you can see in this html document we have used the form tag which will be  performing the action on ‘Pentester’ profile and the action which it will be performing is of changing the password of ‘Pentester2’ to ‘1’.  Save the html document with .html extension.
 
 11. So what an attacker need to do  is that he has to send this html document via link or some way to the victims (Pentester2)browser and as soon as the victims click on it this html document will get executed by changing the password of the victim account.
 
@@ -112,7 +111,7 @@ python3 dirsearch.py -u http://localhost:3000 -e html,php
 
 14. Keep in mind that in the real world application you have to know hidden parameters which are getting used for changing the password and also the url or endpoint of the user account or the UID given to the user.
 
-Note: CSRF poc can be generated from burp pro as well
+Note: CSRF poc can be generated from burppro as well
 ```
 <html>
   <!-- CSRF PoC - generated by Burp Suite Professional -->
@@ -133,9 +132,9 @@ Note: CSRF poc can be generated from burp pro as well
 </html>
 ```
 
-15. Here the html document you created is in your localhost so just open that document via any browser you were working on and you will see the notification of the account getting updated and the password for your user will be changed.
+15. Here the html document you created is in your localhost so just open that document via any browser you wer workink on and you will see the notification of account getting updated and the password for your user will be changed.
 
-16. Keep in mind that the url provides in form action of the html document the UID present there is for my user so change it to the UID provided for your user to see changes.
+16. Keep in mind that the url provide in form action of the html document the UID present there is for my user so change it to the UID provided for your user to see changes.
 
 
 ## Medium <a name="Medium"></a>
@@ -153,22 +152,22 @@ Note: CSRF poc can be generated from burp pro as well
 
 3. This IDOR vulnerability is present in the section of deletion of a post or comment which means we can delete any other users post or comment though it’s not possible with the feature  inside the application but we can do it with the help of BurpSuite.So open your BurpSuite and connect it with the  browser you are working on.
 
-4. To solve  this vulnerability  we need two accounts. So let’s login with our first account (let's say the first account name is “Pentester”) and create a post with our first account.
+4. To solve  this vulnerability  we need two accounts. So let’s login with our first account (let's say first account name is “Pentester”) and create a post with our first account.
 ![IDOR](/images/idor1.png)
 
-5. As you can see the post from the Pentester account has been created.
+5. As you can see the post from Pentester account has been created.
 ![IDOR](/images/idor2.png)
 
-6. Similar way to create a post from another account "Pentester2" account.
+6. Similar way create a post from another account "Pentester2" account.
 ![IDOR](/images/idor3.png)
 
-7. For the post created by Pentester2,  create a delete request and capture it in burp. Captured request sends it to the repeater tab.
+7. For the post created by Pentester2,  create a delete request and capture it in burp. Captured request send it to repeater tab.
 ![IDOR](/images/idor4.png)
 
 8. Now as you know that Pentester2  can delete only his post which he created according to the feature of the application but as we see application is deleting post by UUID of post so we can try to delete other users post too by replacing it with post of pentester ID's.
 ![IDOR](/images/idor5.png)
 
-9. Get the UUID of the pentester post and replace it with pentester2 UUID.Once that is done.Right click and show response in Browser, it will delete the post of the user Pentester you can check it by refreshing the page. 
+9. Get the UUID of the pentester post and replce it with pentester2 UUID.Once that is done.Right click and show response in Browser, it will delete the post of the user Pentester you can check it by refershing the page. 
 ![IDOR](/images/idor6.png)
 
 
@@ -189,7 +188,7 @@ Note: CSRF poc can be generated from burp pro as well
 5. Update this and open your profile section again and you will see that  in the image section there is no image because obviously that was not an url for uploading an image.
 ![SSRF](/images/ssrf3.png)
 
-6. Now go to the profile image section on left side and right to copy the image location.open a new tab and paste the image location and it will ask you to save the image as shown in below image
+6. Now goto the profile image section on left side and right to copy the image location.open a new tab and paste the image location and it will ask you to save the image as shown in below image
 ![SSRF](/images/ssrf4.png)
 
 7. Open your terminal and go to where you have saved that image and open that image file using the nano command “nano [file name]”.
@@ -199,21 +198,21 @@ Note: CSRF poc can be generated from burp pro as well
 
 ### Stored-XSS <a name="Stored-XSS"></a>
 
-1. This XSS is present inside the profile section inside the website input field. It is a stored XSS which executes only when other users visit the profile of a user whose website field is updated with malicious script. So first let’s go to the  profile section and put a simple javascript  inside the website field. 
+1. This XSS is present inside the profile section inside the website input field. It is a stored XSS which executes only when other users visit the profile of user whose website field is updated with malicius script. So first let’s go to the  profile section and put a simple javascript  inside the website field. 
 ```
 <script>alert(“Hacker”)</script>
 ```
 ![Stored](/images/stored1.png)
 
-2. Now login to another user account and visit the website updated user profile.
+2. now login to other user account and visit the website updated user prfile.
 ![Stored](/images/stored2.png)
 
 3. once you click on view the xss will execute
-![Stored](/images/stored3.png)
+![Stored](/images/stored3.png) 
 
-### Stored-XSS <a name="Self-XSS"></a>
+### Stored-XSS <a name="Self-XSSS"></a>
 
-1. The stored-xss is present in the name field of the profile section.So go to your profile by clicking on Account button:
+1. The self-xss is present in the name field of the profile section. So go to your profile by clicking on Account button:
 
 2. In name field enter a script as input: 
 ```
@@ -221,11 +220,10 @@ Note: CSRF poc can be generated from burp pro as well
 ```
 ![XSS](/images/self2.png)
 
-3. Click on update. After this you will see that the entered XSS payload is getting  executed on your browser and it will keep getting executed whenever you try to access your profile section through the icon given on the home page or profile name.
+3. Click on update. After this you will see that the entered XSS payload getting  executed on your browser and it will keep getting executed whenever you will try to access your profile section through the icon given on home page or profile name.
 ![XSS](/images/self3.png)
 4. Another execution end point : When you visit the same user profile from another user given script executes
 ![XSS](/images/self4.png)
-
 
 ## Critical <a name="Critical"></a>
 
@@ -235,7 +233,7 @@ Note: CSRF poc can be generated from burp pro as well
 
 2. There is a /management page which has an authentication system which works via JWT API .
 
-3. Visit this registration page in the application  and register with the above email admin@threadsapp.co.in. Capture this sign-in request  going out of your browser with the  BurpSuite proxy.
+3. Visit this registration page in the application  and register in with above email admin@threadsapp.co.in. Capture this sign-in request  going out of your browser with the  BurpSuite proxy.
 
 4. Open the proxy tab in your BurpSuite to check the outgoing request.Copy this request and send it to the repeater.
 
@@ -268,7 +266,4 @@ python3 jwt_tool.py eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiaGluYXZ
 
 
 Happy learning,Happy hacking!
-
-
-
 
