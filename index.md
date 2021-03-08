@@ -21,7 +21,7 @@ In  this section we will talk about the solution to all the vulnerabilities pres
 
 ### Self-XSS (1st) <a name="Self-XSS"></a>
 
-1. The self-xss is present in the name field of the profile section.So goto your profile by cliclking on Account button:
+1. The self-xss is present in the name field of the profile section. So go to your profile by clicking on Account button:
 
 2. In name field enter a script as input: 
 ```
