@@ -145,27 +145,27 @@ Note: CSRF poc can be generated from burp pro as well
 ### No rate limiting <a name="nolimit"></a>
 
 1. Make two accounts and create a post from 1st account.
-[no limit](/images/number.png) 
+[limit](/images/number.png) 
 
 2. Then go to the second account and add a comment from that account to the post created by the first account.
 
 3. Capture the comment  request in the Burpsuite proxy. 
-[no limit](/images/number2.png)
+[limit](/images/number2.png)
 
 4. Send this request to the intruder tab in the BurpSuite proxy.
 
 5. Set the target in target section 
-[no limit](/images/number3.png)
+[limit](/images/number3.png)
 
 6. In positions section  change accept language  so it can look like this "Accept-Language: en-US,en;q=0.§5§" so we can bruteforce continously.
-[no limit](/images/number4.png)
+[limit](/images/number4.png)
 
 7. Go to payload section select and add numbers 1 to 100 (or set any limit according to how many comments you want to add on that post) and then start the attack.
-[no limit](/images/number5.png)
-[no limit](/images/number6.png)
+[limit](/images/number5.png)
+[limit](/images/number6.png)
 
 8. Check the application and the comment will be added as many times till which you have set the limit.
-[no limit](/images.number7.png)
+[limit](/images.number7.png)
 
 
 ## High <a name="High"></a>
