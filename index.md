@@ -12,6 +12,7 @@
   * [Stored-XSS](#Stored-XSS)
   * [Stored-XSS](#Self-XSS)
   * [Acoount takeover via IDOR](#IDORt)
+  * [Blind SSRF](#bssrf)
 - [4. Critical Severity](#Critical)
   * [JWT Authentication](#JWT)
 
@@ -272,6 +273,15 @@ completely ,let's cross check it by login to another user account.
 
 5. Similar ways other actions can be done by changing the UserId like: changing the
 password,Bio,Website,User Name etc.
+
+### Blind SSRF <a name="bssrf"></a>
+
+1. Application's upload image via image url is vulnerable to blind SSRF in the account section.
+![Blind SSRF](/images/bssrf1.png)
+
+2.Now goto burp pro and get the http url or host your own server to get the request from the application server.
+![Blind SSRF](/images/bssrf2.png)
+
 
 ## Critical <a name="Critical"></a>
 
